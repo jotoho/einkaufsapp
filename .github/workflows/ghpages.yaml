@@ -1,3 +1,11 @@
+# Initial version in this project taken from vite documentation on:
+# https://raw.githubusercontent.com/vitejs/vite/84e6d6044863e3e620addcf9065010b30a860e22/docs/guide/static-deploy.md
+#
+# These following license infos are derived from the LICENSE file in that repository.
+#
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2019-2025 VoidZero Inc. and Vite contributors
+
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 

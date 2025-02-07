@@ -1,3 +1,9 @@
+# Based on licensing information in:
+# https://github.com/vitejs/vite/raw/0b17ab3727202b8c87cb0e747c192e3527a5e1ee/packages/create-vite/LICENSE
+#
+# SPDX-FileCopyrightText: 2019-2025 VoidZero Inc. and Vite contributors
+# SPDX-License-Identifier: CC0-1.0
+
 # Logs
 logs
 *.log
