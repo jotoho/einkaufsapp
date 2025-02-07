@@ -1,6 +1,9 @@
+// SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+// SPDX-License-Identifier: CC0-1.0
+
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2024",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
