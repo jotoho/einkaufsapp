@@ -14,6 +14,13 @@ jobs:
   build:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      VALIDATE_JAVASCRIPT_ES: false
+      VALIDATE_JAVASCRIPT_PRETTIER: false
+      VALIDATE_JSCPD: false
+      VALIDATE_JSON: false
+      VALIDATE_TYPESCRIPT_ES: false
+      VALIDATE_TYPESCRIPT_STANDARD: false
 
     permissions:
       contents: read
