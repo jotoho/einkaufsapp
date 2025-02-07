@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2025 WorkOfStan
+# File originally copied from:
+# https://raw.githubusercontent.com/WorkOfStan/prettier-fix/d4cad8e3f251811a632b9c6e4c06bfa419b0d4e0/.github/workflows/prettier-fix.yml
+
+---
+name: Prettier-fix
+on: [pull_request, push]
+
+permissions:
+  contents: write
+
+jobs:
+  prettier-fix:
+    runs-on: ubuntu-latest
+    # Limit the running time
+    timeout-minutes: 10
+    steps:
+      - name: Invoke the Prettier fix
+        # Use the latest commit in the main branch.
+        uses: WorkOfStan/prettier-fix@main
+        with:
+          #node-version: "20"
+          commit-changes: true
+
