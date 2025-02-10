@@ -23,7 +23,6 @@
     "vite-plugin-html": "^3.2.2"
   },
   "dependencies": {
-    "appwrite": "^17.0.0",
-    "ejs": "^3.1.10"
+    "appwrite": "^17.0.0"
   }
 }

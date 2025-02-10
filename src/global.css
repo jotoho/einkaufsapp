@@ -1,0 +1,65 @@
+/*
+  SPDX-License-Identifier: AGPL-3.0-only
+  SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  width: 72em;
+  max-width: 100vw;
+  height: fit-content;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  font-size: medium;
+}
+
+:root > body {
+  display: contents;
+
+  > main {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+
+header,
+footer {
+  text-align: center;
+}
+
+header {
+  border-bottom: 1px solid black;
+}
+
+footer {
+  border-top: 1px solid black;
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+h2 {
+  font-size: x-large;
+}
+
+h3 {
+  font-size: large;
+}
+
+h4,
+h5,
+h6 {
+  font-size: medium;
+}
