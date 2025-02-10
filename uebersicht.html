@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+    SPDX-License-Identifier: AGPL-3.0-only
+    SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+-->
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ihre Einkaufslisten</title>
+    <script type="module" src="src/dashboard.ts"></script>
+    <link href="src/global.css" type="text/css" rel="stylesheet" />
+    <link href="src/dashboard.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body>
+    <header><h1>Platzhalter für Header</h1></header>
+    <main id="pagemain">
+      <h2>Ihre Einkaufslisten</h2>
+      <form id="new-list-form">
+        <input
+          name="listname"
+          type="text"
+          required
+          placeholder="Listenbezeichnung"
+        />
+        <input id="new-list-date" name="listdate" type="date" required />
+        <select id="teams-select" name="listteam" required></select>
+        <input
+          id="new-list-submitter"
+          name="listsubmit"
+          type="submit"
+          value="&check; Erstellen"
+        />
+        <input name="listreset" type="reset" value="&olarr; Abbruch" />
+      </form>
+      <ul class="shoppinglists open">
+        <h3>Offene Listen:</h3>
+      </ul>
+      <ul class="shoppinglists done">
+        <h3>Abgeschlossene Listen:</h3>
+      </ul>
+    </main>
+    <footer>Platzhalter für Footer</footer>
+  </body>
+</html>

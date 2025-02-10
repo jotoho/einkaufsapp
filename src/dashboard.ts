@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+
+import { requestClient } from "./autologin.ts";
+import { Databases, Teams, ID, Permission, Role } from "appwrite";
+import { CONFIG } from "./config.ts";
+import type {
+  Einkaufsliste,
+  EinkaufslisteModel,
+  ListeneintragModel,
+} from "./types.ts";
+
+const openLists = document.querySelector(
+  "main#pagemain > ul.shoppinglists.open",
+);
+const doneLists = document.querySelector(
+  "main#pagemain > ul.shoppinglists.done",
+);
+
+console.assert(openLists !== null);
+console.assert(doneLists !== null);
+if (openLists === null || doneLists === null) {
+  throw "Malformed HTML";
+}
+
+const generateListRepresentation = async (liste: EinkaufslisteModel) => {
+  const result = document.createElement("li");
+  const einträge = liste.listeneintrag as ListeneintragModel[];
+  const stichtag_localized = new Date(liste.stichtag).toLocaleDateString(
+    "de-DE",
+    {
+      dateStyle: "long",
+    },
+  );
+  result.innerHTML = `
+    <a href="/liste.html?id=${liste.$id}" >
+      <h3 class="listname">${liste.beschriftung}</h3>
+      <span class="household">${(await teams.get(liste.ID_Household)).name}</span>
+      <time datetime="${liste.stichtag}">${stichtag_localized}</time>
+      <progress max="${einträge.length}" value="${einträge.filter((listeneintrag) => listeneintrag.erledigt).length}" />
+    </a>
+  `;
+  return result;
+};
+
+const teams = new Teams(requestClient);
+const documentProcessor = async (doc: EinkaufslisteModel) => {
+  console.debug(doc);
+  const listOfLists = doc.listeneintrag as ListeneintragModel[];
+  const isDone = listOfLists.every((liste) => liste.erledigt);
+  (isDone ? doneLists : openLists).appendChild(
+    await generateListRepresentation(doc),
+  );
+};
+
+const db = new Databases(requestClient);
+const shoppingLists = (
+  await db.listDocuments(CONFIG.DATABASE_ID, CONFIG.DB_COLLECTION_SHOPPINGLISTS)
+).documents as EinkaufslisteModel[];
+shoppingLists.forEach(documentProcessor);
+
+const dateFormField: HTMLInputElement | null = document.querySelector(
+  "input[type=date]#new-list-date",
+);
+if (dateFormField) {
+  dateFormField.min = new Date(new Date().setDate(new Date().getDate() - 1))
+    .toISOString()
+    .split("T")[0];
+  dateFormField.max = new Date(
+    new Date().setFullYear(new Date().getFullYear() + 1),
+  )
+    .toISOString()
+    .split("T")[0];
+}
+
+const teamsSelect = document.getElementById("teams-select");
+if (teamsSelect) {
+  const teamsResponse = await teams.list();
+  teamsResponse.teams.forEach(async (team) => {
+    const option = document.createElement("option");
+    option.value = team.$id;
+    option.innerText = team.name;
+    teamsSelect.appendChild(option);
+  });
+}
+
+const createNewList = (event: HTMLElementEventMap["click"]) => {
+  event.preventDefault();
+  const newList: Einkaufsliste = {
+    ID_Household: (document.getElementById("teams-select") as HTMLSelectElement)
+      .value,
+    stichtag: new Date(
+      (document.getElementById("new-list-date") as HTMLInputElement).value,
+    ).toISOString(),
+    beschriftung:
+      (
+        document.querySelector(
+          "form#new-list-form > input[name=listname]",
+        ) as HTMLInputElement
+      )?.value ?? "",
+    listeneintrag: [],
+  };
+
+  db.createDocument(
+    CONFIG.DATABASE_ID,
+    CONFIG.DB_COLLECTION_SHOPPINGLISTS,
+    ID.unique(),
+    newList,
+    [
+      Permission.read(Role.team(newList.ID_Household)),
+      Permission.update(Role.team(newList.ID_Household)),
+      Permission.delete(Role.team(newList.ID_Household)),
+    ],
+  );
+};
+
+document
+  .getElementById("new-list-submitter")
+  ?.addEventListener("click", createNewList);

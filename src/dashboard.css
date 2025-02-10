@@ -1,0 +1,60 @@
+/*
+  SPDX-License-Identifier: AGPL-3.0-only
+  SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+*/
+
+form#new-list-form {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1em;
+
+  > input[type="text"] {
+    flex-grow: 1;
+  }
+
+  > label {
+    gap: 0;
+  }
+}
+
+.shoppinglists {
+  > li {
+    list-style-type: none;
+    border: 1px solid black;
+    padding: 1em;
+    gap: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-basis: content;
+    flex-wrap: wrap;
+    width: 100%;
+
+    > a {
+      display: contents;
+      color: unset;
+
+      &:visited {
+        color: unset;
+      }
+
+      > * {
+        flex-grow: 0;
+        flex-shrink: 1;
+        display: block;
+      }
+
+      > h3 {
+        padding: unset;
+        margin: unset;
+      }
+
+      > progress {
+        flex-grow: 1;
+      }
+    }
+  }
+}
