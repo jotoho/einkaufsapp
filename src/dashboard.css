@@ -58,3 +58,9 @@ form#new-list-form {
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .shoppinglists > li {
+    border-color: white;
+  }
+}
