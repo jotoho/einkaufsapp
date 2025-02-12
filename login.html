@@ -1,0 +1,37 @@
+<!doctype html>
+<!--
+  SPDX-License-Identifier: AGPL-3.0-only
+  SPDX-FileCopyrightText: 2025 Tim Beckmann <beckmann.tim@fh-swf.de>
+-->
+
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link href="src/global.css" type="text/css" rel="stylesheet" />
+    <link href="src/login.css" type="text/css" rel="stylesheet" />
+    <script type="module" src="/src/login.ts"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Platzhalter für Header</h1>
+    </header>
+    <main id="loginField">
+        <form id="loginForm">
+            <label for="email">E-Mail</label>
+            <input type="email" id="email" name="email" required />
+            <br />
+            <label for="password">Passwort</label>
+            <input type="password" id="password" required />
+            <br />
+            <button type="submit" id="loginButton">Anmelden</button>
+            <div id="error">
+            </div>
+        </form>
+    </main>
+    <footer>Platzhalter für Footer</footer>
+</body>
+
+</html>
