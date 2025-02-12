@@ -5,6 +5,7 @@
 
 * {
   box-sizing: border-box;
+  border-collapse: collapse;
 }
 
 :root {
@@ -62,4 +63,16 @@ h4,
 h5,
 h6 {
   font-size: medium;
+}
+
+@media (prefers-color-scheme: dark) {
+  header,
+  footer,
+  :root {
+    border-color: white;
+  }
+
+  :root {
+    color: white;
+  }
 }
