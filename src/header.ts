@@ -13,19 +13,14 @@ const pageHeaderLoginButton: HTMLButtonElement | null = pageHeader
 const pageHeaderLogoffButton: HTMLButtonElement | null = pageHeader
   ? pageHeader.querySelector("button#headerLogoff")
   : null;
-const pageHeaderSettingsButton: HTMLButtonElement | null = pageHeader
-  ? pageHeader.querySelector("button#headerSettings")
-  : null;
-
-const pageHeaderUserInfo: HTMLDivElement | null = pageHeader
-  ? pageHeader.querySelector("div#headerUserInfo")
+const pageHeaderUserInfo: HTMLAnchorElement | null = pageHeader
+  ? pageHeader.querySelector("#headerUserInfo")
   : null;
 
 const headerIsDamaged =
   !pageHeader ||
   !pageHeaderLoginButton ||
   !pageHeaderLogoffButton ||
-  !pageHeaderSettingsButton ||
   !pageHeaderUserInfo;
 
 if (headerIsDamaged) {
@@ -58,20 +53,9 @@ pageHeaderLogoffButton.addEventListener(
   { once: true },
 );
 
-pageHeaderSettingsButton.addEventListener(
-  "click",
-  (event) => {
-    event.preventDefault();
-    window.alert("This button doesn't do anything yet, sorry.");
-  },
-  { once: true },
-);
-
 const userLoggedIn = async (user: Models.User<Models.Preferences>) => {
   pageHeaderLogoffButton.disabled = false;
-  pageHeaderSettingsButton.disabled = false;
-  pageHeaderUserInfo.innerText =
-    "Logged in as: " + user.name + " (" + user.email + ")";
+  pageHeaderUserInfo.innerText = user.email;
 };
 
 const userNotLoggedIn = async (_: any) => {
