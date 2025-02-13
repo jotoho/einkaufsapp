@@ -4,8 +4,8 @@ SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
 -->
 
 <svg xmlns="http://www.w3.org/2000/svg"
-     width="16cm"
-     height="12cm"
+     width="3cm"
+     height="3cm"
      overflow="hidden"
      version="2.0">
     <line x1="100%"
@@ -13,32 +13,33 @@ SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
           x2="100%"
           y2="100%"
           stroke="black"
-          stroke-width=".5cm" />
+          stroke-width=".5cm" stroke-linecap="round" />
     <line
-        x1="70%"
+        x1="50%"
         y1="15%"
-        x2="70%"
+        x2="50%"
         y2="85%"
         stroke="black"
-        stroke-width=".25cm"
+        stroke-width=".25cm" stroke-linecap="round"
     />
-    <line stroke="black" stroke-width=".3cm"
-     x1="70%" y1="15%"
+    <line stroke="black" stroke-width=".3cm" stroke-linecap="round"
+     x1="50%" y1="15%"
      x2="100%" y2="0%" />
-    <line stroke="black" stroke-width=".25cm"
+    <line stroke="black" stroke-width=".25cm" stroke-linecap="round"
       x1="100%" y1="100%"
-      x2="70%" y2="85%"
+      x2="50%" y2="85%"
     />
-    <line stroke="black" stroke-width=".25cm"
-      x1="85%" y1="50%"
-      x2="30%" y2="50%"
+
+    <line stroke="black" stroke-width=".25cm" stroke-linecap="round"
+      x1="80%" y1="50%"
+      x2="0%" y2="50%"
     />
-    <line stroke="black" stroke-width=".25cm"
-      x1="85%" y1="50%"
-      x2="75%" y2="25%"
+    <line stroke="black" stroke-width=".25cm" stroke-linecap="round"
+      x1="80%" y1="50%"
+      x2="66.6666%" y2="25%"
     />
-    <line stroke="black" stroke-width=".25cm"
-      x1="85%" y1="50%"
-      x2="75%" y2="75%"
+    <line stroke="black" stroke-width=".25cm" stroke-linecap="round"
+      x1="80%" y1="50%"
+      x2="66.6666%" y2="75%"
     />
 </svg>
