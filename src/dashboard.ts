@@ -1,14 +1,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
 
-import { requestClient } from "./autologin.ts";
-import { Databases, Teams, ID, Permission, Role } from "appwrite";
+import {
+  Client,
+  Account,
+  Databases,
+  Teams,
+  ID,
+  Permission,
+  Role,
+} from "appwrite";
 import { CONFIG } from "./config.ts";
 import type {
   Einkaufsliste,
   EinkaufslisteModel,
   ListeneintragModel,
 } from "./types.ts";
+
+const client = new Client()
+  .setEndpoint(CONFIG.BACKEND_ENDPOINT)
+  .setProject(CONFIG.PROJECT_ID);
+const accountAPI = new Account(client);
+
+await accountAPI.get().catch(() => {
+  console.error("User is not logged in! Redirecting...");
+  window.location.pathname = "/login.html";
+});
 
 const openLists = document.querySelector(
   "main#pagemain > ul.shoppinglists.open",
@@ -43,7 +60,7 @@ const generateListRepresentation = async (liste: EinkaufslisteModel) => {
   return result;
 };
 
-const teams = new Teams(requestClient);
+const teams = new Teams(client);
 const documentProcessor = async (doc: EinkaufslisteModel) => {
   console.debug(doc);
   const listOfLists = doc.listeneintrag as ListeneintragModel[];
@@ -53,7 +70,7 @@ const documentProcessor = async (doc: EinkaufslisteModel) => {
   );
 };
 
-const db = new Databases(requestClient);
+const db = new Databases(client);
 const shoppingLists = (
   await db.listDocuments(CONFIG.DATABASE_ID, CONFIG.DB_COLLECTION_SHOPPINGLISTS)
 ).documents as EinkaufslisteModel[];
