@@ -35,7 +35,7 @@ form#new-list-form {
 
     > a {
       display: contents;
-      color: unset;
+      color: inherit;
 
       &:visited {
         color: unset;
