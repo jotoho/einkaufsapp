@@ -17,7 +17,11 @@ const password = <HTMLInputElement>document.getElementById("password");
 const errorField = <HTMLDivElement>document.getElementById("error");
 const loginButton = <HTMLButtonElement>document.getElementById("loginButton");
 
-isUserLoggedIn().then(() => {
+isUserLoggedIn().then((isLoggedIn) => {
+    if (!isLoggedIn) {
+        return;
+    }
+
     email.disabled = true;
     password.disabled = true;
     loginButton.disabled = true;
