@@ -52,6 +52,11 @@ header#pageHeader.standardheader {
       display: none;
     }
 
+    > button > a {
+      color: inherit;
+      text-decoration-line: none;
+    }
+
     > #headerUserInfo {
       &:empty {
         display: none;
