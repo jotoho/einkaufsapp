@@ -128,7 +128,8 @@ const createNewList = (event: HTMLElementEventMap["click"]) => {
       Permission.update(Role.team(newList.ID_Household)),
       Permission.delete(Role.team(newList.ID_Household)),
     ],
-  );
+  ).then(() => window.location.reload(),
+         () => { window.alert("Die geforderte Liste konnte nicht erstellt werden. :(") });
 };
 
 document
