@@ -180,7 +180,7 @@ if (listOfHouseholds) {
         <div class="spaceBuffer"></div>
         <div class="householdActions">
           <button class="inviteToHousehold">✉</button>
-          <button class="leaveHousehold"><img class="darkModeInvert" src="/public/logout.svg" /></button>
+          <button class="leaveHousehold"><img class="darkModeInvert" src="/logout.svg" /></button>
         </div>
       `;
         const inviteButton = fragment.querySelector<HTMLButtonElement>(
