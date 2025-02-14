@@ -5,14 +5,45 @@
   SPDX-FileCopyrightText: 2025 Tim Beckmann <beckmann.tim@fh-swf.de>
 -->
 
-<html lang="en">
+<html lang="de">
   <head>
     <load src="partials/meta.html" />
     <title>Einkaufsapp</title>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/index.ts"></script>
+    <link href="src/index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <load src="/partials/standardheader.html" pageTitle="Willkommen zur Einkaufslistenverwaltung!" />
-    <main></main>
+    <load
+      src="/partials/standardheader.html"
+      pageTitle="Willkommen zur Einkaufslistenverwaltung!"
+    />
+    <main>
+      <p>
+        Dies ist eine Webanwendung zum gemeinsamen Vorbereiten und Abarbeiten
+        von Einkaufslisten in Haushälten.
+      </p>
+      <p>
+        Diese App wird aktuell im Rahmen einer schriftlichen Ausarbeitung im
+        Studium entwickelt und ist zu dieser Zeit noch nicht fertiggestellt.
+      </p>
+      <p>
+        Das Registrierungsformular
+        <a href="/registration.html">befindet sich hier.</a>
+        <br />
+        Zu dieser Zeit sollten Konten bitte nur mit unserer ausdrücklichen
+        Genehmigung erstellt werden. Speichern Sie keine sensiblen Daten - wir
+        haften nicht, falls irgendetwas schiefgeht.
+      </p>
+      <p>
+        Das Entwicklungsrepository
+        <a href="https://github.com/jotoho/einkaufsapp"
+          >befindet sich auf GitHub.</a
+        >. Die Webanwendung wird
+        <a href="https://pages.github.com">mittels GitHub Pages</a>
+        ausgeliefert, und nutzt im Hintergrund
+        <a href="https://appwrite.io">Appwrite</a> für Aufgaben wie
+        Authentisierung und Datenspeicherung.
+      </p>
+    </main>
   </body>
 </html>
