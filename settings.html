@@ -1,0 +1,49 @@
+<!doctype html>
+<!--
+  SPDX-License-Identifier: AGPL-3.0-only
+  SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+  SPDX-FileCopyrightText: 2025 Tim Beckmann <beckmann.tim@fh-swf.de>
+-->
+<html>
+  <head>
+    <load src="partials/meta.html" />
+    <title>Kontoeinstellungen | EinkaufsApp</title>
+    <script src="src/accountmgmt.ts" type="module"></script>
+    <link type="text/css" rel="stylesheet" href="src/accountmgmt.css" />
+  </head>
+  <body>
+    <load src="partials/standardheader.html" pageTitle="Kontoeinstellungen" />
+    <main>
+      <div id="accountmgmt">
+        <h2>Kontoeinstellungen</h2>
+        <ul>
+          <li>
+            <button id="buttonChangeEmail">
+              <a href="/change_email.html">E-Mail ändern (WIP)</a>
+            </button>
+          </li>
+          <li>
+            <button id="buttonChangePassword">
+              <a href="/change_passwort.html">Passwort ändern (WIP)</a>
+            </button>
+          </li>
+          <li>
+            <button id="buttonDeleteAccount">Konto löschen</button>
+          </li>
+        </ul>
+      </div>
+      <hr />
+      <div id="households">
+        <h2>Haushaltsverwaltung</h2>
+        <form id="newHouseholdForm">
+          <input name="householdName" id="inputNewHouseholdName" placeholder="Haushaltsname" />
+          <button id="buttonCreateHousehold" disabled>Neuen Haushalt erstellen</button>
+        </form>
+
+        <ul id="listHouseholds">
+
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>

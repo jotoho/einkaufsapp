@@ -15,6 +15,6 @@ export type Einkaufsliste = {
   ID_Household: string;
   stichtag: string;
   beschriftung: string | null;
-  listeneintrag: Listeneintrag[];
+  listeneintrag: ListeneintragModel[];
 };
 export type EinkaufslisteModel = Einkaufsliste & Readonly<Models.Document>;
