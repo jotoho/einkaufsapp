@@ -1,0 +1,78 @@
+<!doctype html>
+<!--
+  SPDX-License-Identifier: AGPL-3.0-only
+  SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
+-->
+<html lang="de">
+  <head>
+    <load src="partials/meta.html" />
+    <title>Neuregistrierung | EinkaufsApp</title>
+    <script type="module" src="src/register.ts"></script>
+    <link type="text/css" rel="stylesheet" href="/src/register.css" />
+  </head>
+
+  <body>
+    <load src="partials/standardheader.html" pageTitle="Registrierung" />
+    <main>
+      <h2>Kontoregistrierung</h2>
+      <form id="registerForm">
+        <table>
+          <tr>
+            <td><label for="inputEmail">E-Mail Adresse</label></td>
+            <td>
+              <input
+                type="email"
+                name="email"
+                id="inputEmail"
+                placeholder="Ihre E-Mailadresse"
+                disabled
+                required
+                minlength="4"
+                autocomplete="email"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="inputPassword1">Passwort</label></td>
+            <td>
+              <input
+                name="password"
+                type="password"
+                id="inputPassword1"
+                placeholder="gewünschtes Passwort"
+                disabled
+                required
+                minlength="10"
+                autocomplete="new-password"
+                pattern="(?=.*[0-9]{1})(?=.*[A-Z]{1})(?=.*[a-z]{1}).*"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="inputPassword2">Passwort wiederholen</label></td>
+            <td>
+              <input
+                type="password"
+                id="inputPassword2"
+                placeholder="wiederholtes Passwort"
+                disabled
+                required
+                minlength="10"
+                autocomplete="new-password"
+                pattern="(?=.*[0-9]{1})(?=.*[A-Z]{1})(?=.*[a-z]{1}).*"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <button id="submitRegistration" disabled>
+                Jetzt registrieren
+              </button>
+              <input type="reset" id="buttonReset" hidden />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </main>
+  </body>
+</html>
