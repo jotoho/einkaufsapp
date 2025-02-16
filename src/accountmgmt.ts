@@ -1,7 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2025 Jonas Tobias Hopusch <git@jotoho.de>
 
-import { Client, Account, Teams, ID, Models, Databases, Query } from "appwrite";
+import {
+  Client,
+  Account,
+  Teams,
+  ID,
+  Models,
+  Databases,
+  Query,
+  Functions,
+} from "appwrite";
 import { CONFIG } from "./config.ts";
 import { showToast } from "./notifications.ts";
 import { EinkaufslisteModel } from "./types.ts";
@@ -12,6 +21,7 @@ const client = new Client()
 const accountAPI = new Account(client);
 const teamsAPI = new Teams(client);
 const dbAPI = new Databases(client);
+const functionAPI = new Functions(client);
 
 const currentUser = (await accountAPI.get().catch(() => {
   window.location.pathname = "/login.html";
@@ -125,12 +135,32 @@ const inviteToHousehold = async (
       new RegExp("^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$", "gi"),
     )
   ) {
+    const searchResults = await functionAPI
+      .createExecution(
+        CONFIG.FUNCTION_EMAIL_TO_USERID,
+        JSON.stringify({ email: targetUserEmail }),
+      )
+      .then(
+        (execution) => {
+          if (
+            execution.status === "completed" &&
+            execution.responseStatusCode === 200
+          ) {
+            const returnedObj = JSON.parse(execution.responseBody);
+            return Array.isArray(returnedObj) ? (returnedObj as string[]) : [];
+          } else {
+            return [];
+          }
+        },
+        () => [],
+      );
+
     teamsAPI
       .createMembership(
         household.$id,
         ["owner"],
-        targetUserEmail,
         undefined,
+        searchResults.at(0),
         undefined,
         document.location.origin + "/einladung.html",
       )
