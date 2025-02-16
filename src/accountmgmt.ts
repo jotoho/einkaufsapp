@@ -155,24 +155,34 @@ const inviteToHousehold = async (
         () => [],
       );
 
-    teamsAPI
-      .createMembership(
-        household.$id,
-        ["owner"],
-        undefined,
-        searchResults.at(0),
-        undefined,
-        document.location.origin + "/einladung.html",
-      )
-      .then(
-        () => {
-          window.location.reload();
-        },
-        (reason) => {
-          showToast("Einladung fehlgeschlagen");
-          console.error("Inviting failed", household, targetUserEmail, reason);
-        },
-      );
+    if (searchResults.length === 1) {
+      teamsAPI
+        .createMembership(
+          household.$id,
+          ["owner"],
+          undefined,
+          searchResults.at(0),
+          undefined,
+          document.location.origin + "/einladung.html",
+        )
+        .then(
+          () => {
+            window.location.reload();
+          },
+          (reason) => {
+            showToast("Einladung fehlgeschlagen");
+            console.error(
+              "Inviting failed",
+              household,
+              targetUserEmail,
+              reason,
+            );
+          },
+        );
+    } else {
+      showToast("Lookup for user with that email failed");
+      console.error("user lookup response:", searchResults);
+    }
   } else {
     showToast("Ungültige Email. Einladung abgebrochen.");
   }

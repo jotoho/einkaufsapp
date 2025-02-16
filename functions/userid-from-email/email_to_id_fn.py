@@ -20,6 +20,6 @@ def main(context) -> None:
     users = Users(client)
     target_list = users.list(
         queries=[Query.equal("email", context.req.body_json["email"])]
-    )
+    ).users
     censored_list = [getattr(user, "$id") for user in target_list]
     context.res.json(censored_list)
