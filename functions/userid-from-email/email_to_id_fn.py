@@ -19,7 +19,7 @@ def main(context) -> None:
               .set_key(context.req.headers["x-appwrite-key"]))
     users = Users(client)
     target_list = users.list(
-        queries=[Query.equal("email", context.req.body_json.email)]
+        queries=[Query.equal("email", context.req.body_json["email"])]
     )
     censored_list = [getattr(user, "$id") for user in target_list]
     context.res.json(censored_list)
