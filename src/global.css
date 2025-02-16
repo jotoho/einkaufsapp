@@ -23,6 +23,7 @@
   flex-direction: column;
   flex-wrap: nowrap;
   font-size: medium;
+  scrollbar-width: thin;
 }
 
 :root > body {
@@ -81,7 +82,17 @@ h6 {
   padding: 1em;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    scrollbar-color: black transparent;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
+  :root {
+    scrollbar-color: white transparent;
+  }
+
   header,
   footer,
   :root {
