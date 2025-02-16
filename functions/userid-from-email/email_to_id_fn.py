@@ -22,4 +22,4 @@ def main(context) -> None:
         queries=[Query.equal("email", context.req.body_json["email"])]
     )["users"]
     censored_list = [user["$id"] for user in target_list]
-    context.res.json(censored_list)
+    return context.res.json(censored_list)
