@@ -245,7 +245,7 @@ if (listOfHouseholds) {
         )!;
         leaveButton.addEventListener("click", leaveHousehold.bind(null, team));
         const listOfMembers = fragment.querySelector<HTMLUListElement>(
-          "#householdInformation > ul.members",
+          "ul.members",
         )!;
         for (const member of await teamsAPI.listMemberships(team.$id).then(
           (listObj) => listObj.memberships,
