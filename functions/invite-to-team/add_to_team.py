@@ -30,7 +30,7 @@ def main(context):
     authenticated_inviter = teams.list_memberships(team_id=team_id,
                                                    queries=[
                                                        Query.equal(
-                                                           "confirm", [true]),
+                                                           "confirm", [True]),
                                                        Query.equal(
                                                            "userId", [context.req.headers["x-appwrite-user-id"]])
                                                    ])["total"] == 1
