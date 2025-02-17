@@ -17,26 +17,26 @@ def main(context):
               .set_key(context.req.headers["x-appwrite-key"]))
     teams = Teams(client)
     users = Users(client)
-    if context.req.headers["Content-Type"] == "application/json":
-        team_id = context.req.body_json["team_id"]
-        invitee_email = context.req.body_json["invitee_email"]
-        if team_id is None or invitee_email is None:
-            context.res.status_code(400)
-            return context.res.empty()
-        user_candidates = users.list(queries=[
-            Query.equal("email", [invitee_email])
-        ]).users
-        requested_team = teams.get(team_id)
-        authenticated_inviter = teams.list_memberships(team_id=team_id,
-                                                       queries=[
-                                                           Query.equals(
-                                                               "confirm", [true]),
-                                                           Query.equals(
-                                                               "userId", [context.req.headers["x-appwrite-user-id"]])
-                                                       ]).total == 1
-        if authenticated_inviter:
-            teams.create_membership(team_id, roles=["owner"], user_id=user_candidates[0])
-            return context.res.empty()
+
+    team_id = context.req.body_json["team_id"]
+    invitee_email = context.req.body_json["invitee_email"]
+    if team_id is None or invitee_email is None:
+        context.res.status_code(400)
+        return context.res.empty()
+    user_candidates = users.list(queries=[
+        Query.equal("email", [invitee_email])
+    ]).users
+    requested_team = teams.get(team_id)
+    authenticated_inviter = teams.list_memberships(team_id=team_id,
+                                                   queries=[
+                                                       Query.equals(
+                                                           "confirm", [true]),
+                                                       Query.equals(
+                                                           "userId", [context.req.headers["x-appwrite-user-id"]])
+                                                   ]).total == 1
+    if authenticated_inviter:
+        teams.create_membership(team_id, roles=["owner"], user_id=user_candidates[0])
+        return context.res.empty()
 
     context.res.status_code(400)
     return context.res.empty()
