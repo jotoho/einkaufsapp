@@ -11,7 +11,7 @@ import {
   Role,
 } from "appwrite";
 import { CONFIG } from "./config.ts";
-import type { Einkaufsliste, Einkaufsliste, Listeneintrag } from "./types.ts";
+import type { Einkaufsliste, Listeneintrag } from "./types.ts";
 
 const client = new Client()
   .setEndpoint(CONFIG.BACKEND_ENDPOINT)
@@ -111,6 +111,7 @@ const createNewList = (event: HTMLElementEventMap["click"]) => {
           "form#new-list-form > input[name=listname]",
         ) as HTMLInputElement
       )?.value ?? "",
+    beschreibung: "",
     listeneintrag: [],
   };
 

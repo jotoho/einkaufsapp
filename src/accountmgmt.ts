@@ -67,13 +67,13 @@ const buttonDeleteAccountFn = async () => {
   for (const team of teams) {
     if (team.total <= 1) {
       for (const shoppingList of await dbAPI
-        .listDocuments<Einkaufsliste>(
+        .listDocuments(
           CONFIG.DATABASE_ID,
           CONFIG.DB_COLLECTION_SHOPPINGLISTS,
           [Query.equal("ID_Household", team.$id)],
         )
         .then(
-          (s) => s.documents,
+          (s) => s.documents as Einkaufsliste[],
           () => [],
         )) {
         shoppingList.listeneintrag.forEach(async (entry) => {
@@ -81,7 +81,7 @@ const buttonDeleteAccountFn = async () => {
             dbAPI.deleteDocument(
               CONFIG.DATABASE_ID,
               CONFIG.DB_COLLECTION_SHOPLISTENTRY,
-              entry.$id,
+              entry.$id!,
             ),
           );
         });
@@ -89,7 +89,7 @@ const buttonDeleteAccountFn = async () => {
           dbAPI.deleteDocument(
             CONFIG.DATABASE_ID,
             CONFIG.DB_COLLECTION_SHOPPINGLISTS,
-            shoppingList.$id,
+            shoppingList.$id!,
           ),
         );
       }
