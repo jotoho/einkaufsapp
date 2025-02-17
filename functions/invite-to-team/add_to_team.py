@@ -25,7 +25,7 @@ def main(context):
         return context.res.empty()
     user_candidates = users.list(queries=[
         Query.equal("email", [invitee_email])
-    ]).users
+    ])["users"]
     requested_team = teams.get(team_id)
     authenticated_inviter = teams.list_memberships(team_id=team_id,
                                                    queries=[
@@ -33,7 +33,7 @@ def main(context):
                                                            "confirm", [true]),
                                                        Query.equals(
                                                            "userId", [context.req.headers["x-appwrite-user-id"]])
-                                                   ]).total == 1
+                                                   ])["total"] == 1
     if authenticated_inviter:
         teams.create_membership(team_id, roles=["owner"], user_id=user_candidates[0])
         return context.res.empty()
