@@ -8,13 +8,12 @@ export type Listeneintrag = {
   anzahl: number;
   erledigt: boolean;
   einkaufslisten: Einkaufsliste | null;
-};
-export type ListeneintragModel = Listeneintrag & Readonly<Models.Document>;
+} & Readonly<Partial<Models.Document>>;
 
 export type Einkaufsliste = {
   ID_Household: string;
   stichtag: string;
-  beschriftung: string | null;
-  listeneintrag: ListeneintragModel[];
-};
-export type EinkaufslisteModel = Einkaufsliste & Readonly<Models.Document>;
+  beschriftung: string;
+  beschreibung: string;
+  listeneintrag: Listeneintrag[];
+} & Readonly<Partial<Models.Document>>;

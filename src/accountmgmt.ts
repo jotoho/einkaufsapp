@@ -13,7 +13,7 @@ import {
 } from "appwrite";
 import { CONFIG } from "./config.ts";
 import { showToast } from "./notifications.ts";
-import { EinkaufslisteModel } from "./types.ts";
+import { Einkaufsliste } from "./types.ts";
 
 const client = new Client()
   .setEndpoint(CONFIG.BACKEND_ENDPOINT)
@@ -67,7 +67,7 @@ const buttonDeleteAccountFn = async () => {
   for (const team of teams) {
     if (team.total <= 1) {
       for (const shoppingList of await dbAPI
-        .listDocuments<EinkaufslisteModel>(
+        .listDocuments<Einkaufsliste>(
           CONFIG.DATABASE_ID,
           CONFIG.DB_COLLECTION_SHOPPINGLISTS,
           [Query.equal("ID_Household", team.$id)],
@@ -200,7 +200,7 @@ const generateMemberElement = (member: Models.Membership) => {
   const element = document.createElement("li");
   element.classList.add("teammember");
   element.innerHTML = `
-    <span>${member.userName.length > 0 ? "\"" + member.userName + "\" (" + member.userEmail + ")" : member.userEmail}</span>
+    <span>${member.userName.length > 0 ? '"' + member.userName + '" (' + member.userEmail + ")" : member.userEmail}</span>
     <button class="kickMember">Entfernen</button>
   `.trim();
   element
@@ -263,3 +263,57 @@ if (listOfHouseholds) {
     () => {},
   );
 }
+
+const changeEmailFn = () => {
+  const desiredEmail = window
+    .prompt("Welche E-Mailadresse möchten Sie hinterlegen?", currentUser.email)
+    ?.trim();
+  const enteredPassword = window.prompt(
+    "Geben Sie bitte zum Legitimierung der Anfrage ihr Passwort ein",
+  );
+  if (
+    desiredEmail &&
+    enteredPassword?.trim?.()?.length &&
+    desiredEmail != currentUser.email
+  ) {
+    accountAPI.updateEmail(desiredEmail, enteredPassword).then(
+      () => showToast("E-Mail erfolgreich geändert."),
+      () => showToast("E-Mailänderung gescheitert."),
+    );
+  } else {
+    showToast("E-Mailänderung abgebrochen.");
+  }
+};
+
+const changePasswordFn = () => {
+  const desiredPassword1 = window
+    .prompt("Welches Passwort möchten Sie setzen?")
+    ?.trim();
+  const desiredPassword2 = window
+    .prompt("Wiederholen Sie das neue Passwort:")
+    ?.trim();
+  const enteredPassword = window.prompt(
+    "Geben Sie bitte zum Legitimierung der Anfrage ihr aktuelles Passwort ein",
+  );
+  if (
+    desiredPassword1?.trim?.()?.length &&
+    desiredPassword1 === desiredPassword2 &&
+    enteredPassword?.trim?.()?.length
+  ) {
+    accountAPI.updatePassword(desiredPassword1, enteredPassword).then(
+      () => showToast("Passwort erfolgreich geändert."),
+      () => showToast("Passwortänderung gescheitert."),
+    );
+  } else {
+    showToast("Passwortänderung abgebrochen.");
+  }
+};
+
+const changeEmailButton = document.querySelector<HTMLButtonElement>(
+  "button#buttonChangeEmail",
+);
+const changePasswordButton = document.querySelector<HTMLButtonElement>(
+  "button#buttonChangePassword",
+);
+changeEmailButton?.addEventListener?.("click", changeEmailFn);
+changePasswordButton?.addEventListener?.("click", changePasswordFn);

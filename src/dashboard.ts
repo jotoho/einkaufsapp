@@ -11,11 +11,7 @@ import {
   Role,
 } from "appwrite";
 import { CONFIG } from "./config.ts";
-import type {
-  Einkaufsliste,
-  EinkaufslisteModel,
-  ListeneintragModel,
-} from "./types.ts";
+import type { Einkaufsliste, Einkaufsliste, Listeneintrag } from "./types.ts";
 
 const client = new Client()
   .setEndpoint(CONFIG.BACKEND_ENDPOINT)
@@ -40,9 +36,9 @@ if (openLists === null || doneLists === null) {
   throw "Malformed HTML";
 }
 
-const generateListRepresentation = async (liste: EinkaufslisteModel) => {
+const generateListRepresentation = async (liste: Einkaufsliste) => {
   const result = document.createElement("li");
-  const einträge = liste.listeneintrag as ListeneintragModel[];
+  const einträge = liste.listeneintrag as Listeneintrag[];
   const stichtag_localized = new Date(liste.stichtag).toLocaleDateString(
     "de-DE",
     {
@@ -61,9 +57,9 @@ const generateListRepresentation = async (liste: EinkaufslisteModel) => {
 };
 
 const teams = new Teams(client);
-const documentProcessor = async (doc: EinkaufslisteModel) => {
+const documentProcessor = async (doc: Einkaufsliste) => {
   console.debug(doc);
-  const listOfLists = doc.listeneintrag as ListeneintragModel[];
+  const listOfLists = doc.listeneintrag as Listeneintrag[];
   const isDone = listOfLists.every((liste) => liste.erledigt);
   (isDone ? doneLists : openLists).appendChild(
     await generateListRepresentation(doc),
@@ -73,7 +69,7 @@ const documentProcessor = async (doc: EinkaufslisteModel) => {
 const db = new Databases(client);
 const shoppingLists = (
   await db.listDocuments(CONFIG.DATABASE_ID, CONFIG.DB_COLLECTION_SHOPPINGLISTS)
-).documents as EinkaufslisteModel[];
+).documents as Einkaufsliste[];
 shoppingLists.forEach(documentProcessor);
 
 const dateFormField: HTMLInputElement | null = document.querySelector(
@@ -128,8 +124,12 @@ const createNewList = (event: HTMLElementEventMap["click"]) => {
       Permission.update(Role.team(newList.ID_Household)),
       Permission.delete(Role.team(newList.ID_Household)),
     ],
-  ).then(() => window.location.reload(),
-         () => { window.alert("Die geforderte Liste konnte nicht erstellt werden. :(") });
+  ).then(
+    () => window.location.reload(),
+    () => {
+      window.alert("Die geforderte Liste konnte nicht erstellt werden. :(");
+    },
+  );
 };
 
 document
