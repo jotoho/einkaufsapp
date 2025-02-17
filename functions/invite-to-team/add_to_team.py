@@ -17,7 +17,7 @@ def main(context):
               .set_key(context.req.headers["x-appwrite-key"]))
     teams = Teams(client)
     users = Users(client)
-    if context.req.content_type == "application/json":
+    if context.req.headers["Content-Type"] == "application/json":
         team_id = context.req.body_json["team_id"]
         invitee_email = context.req.body_json["invitee_email"]
         if team_id is None or invitee_email is None:
