@@ -56,10 +56,23 @@ main {
       }
 
       ul.members {
-        &,
-        & > li {
-          display: inline;
-          padding-left: 0;
+        display: block;
+        padding-left: unset;
+        width: fit-content;
+
+        > li {
+          display: block;
+          width: fit-content;
+          padding: 1mm;
+          overflow: hidden;
+
+          > span {
+            text-overflow: ellipsis;
+          }
+          > button {
+            float: right;
+            margin-left: 1mm;
+          }
         }
 
         &:not(:has(> *))::after {
