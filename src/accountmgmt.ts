@@ -135,54 +135,29 @@ const inviteToHousehold = async (
       new RegExp("^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$", "gi"),
     )
   ) {
-    const searchResults = await functionAPI
+    functionAPI
       .createExecution(
-        CONFIG.FUNCTION_EMAIL_TO_USERID,
-        JSON.stringify({ email: targetUserEmail }),
+        CONFIG.FUNCTION_INVITE_TO_TEAM,
+        JSON.stringify({
+          team_id: household.$id,
+          invitee_email: targetUserEmail,
+        }),
       )
       .then(
-        (execution) => {
-          if (
-            execution.status === "completed" &&
-            execution.responseStatusCode === 200
-          ) {
-            const returnedObj = JSON.parse(execution.responseBody);
-            return Array.isArray(returnedObj) ? (returnedObj as string[]) : [];
-          } else {
-            return [];
-          }
+        () => {
+          window.location.hash = "#newHouseholdForm";
+          window.location.reload();
         },
-        () => [],
+        (reason) => {
+          showToast("Einladung fehlgeschlagen.");
+          console.error(
+            "invitation failed",
+            reason,
+            household.$id,
+            targetUserEmail,
+          );
+        },
       );
-
-    if (searchResults.length === 1) {
-      teamsAPI
-        .createMembership(
-          household.$id,
-          ["owner"],
-          undefined,
-          searchResults.at(0),
-          undefined,
-          document.location.origin + "/einladung.html",
-        )
-        .then(
-          () => {
-            window.location.reload();
-          },
-          (reason) => {
-            showToast("Einladung fehlgeschlagen");
-            console.error(
-              "Inviting failed",
-              household,
-              targetUserEmail,
-              reason,
-            );
-          },
-        );
-    } else {
-      showToast("Lookup for user with that email failed");
-      console.error("user lookup response:", searchResults);
-    }
   } else {
     showToast("Ungültige Email. Einladung abgebrochen.");
   }
@@ -203,6 +178,36 @@ const leaveHousehold = async (household: Models.Team<Models.Preferences>) => {
   );
 };
 
+const kickTeamMember = (
+  team_id: string,
+  membership_id: string,
+  member_element: HTMLElement,
+  event: Event,
+): void => {
+  event.preventDefault();
+  event.stopPropagation();
+  teamsAPI
+    .deleteMembership(team_id, membership_id)
+    .then(() => member_element.remove());
+};
+
+const generateMemberElement = (member: Models.Membership) => {
+  const element = document.createElement("li");
+  element.classList.add("teammember");
+  element.innerHTML = `
+    <span>${member.userEmail}</span>
+    <button class="kickMember">Entfernen</button>
+  `.trim();
+  element
+    .getElementsByClassName("kickMember")[0]!
+    .addEventListener(
+      "click",
+      kickTeamMember.bind(null, member.teamId, member.$id, element),
+      { once: true },
+    );
+  return element;
+};
+
 const listOfHouseholds = document.querySelector<HTMLUListElement>(
   "main #households ul#listHouseholds",
 );
@@ -211,6 +216,7 @@ if (listOfHouseholds) {
     async (userTeams) => {
       const teamList = userTeams.teams;
       for (const team of teamList) {
+        console.debug(team);
         const fragment = document.createElement("li");
         fragment.innerHTML = `
         <div class="householdInformation">
@@ -240,11 +246,13 @@ if (listOfHouseholds) {
         for (const member of (
           await teamsAPI.listMemberships(team.$id).catch(() => null)
         )?.memberships ?? []) {
-          if ((member.userId = currentUser.$id)) {
-            continue;
+          console.debug(member);
+          if (member.confirm) {
+            if ((member.userId = currentUser.$id)) {
+              continue;
+            }
+            listOfMembers.appendChild(generateMemberElement(member));
           }
-          listOfMembers.appendChild(document.createElement("li")).innerText =
-            member.userEmail;
         }
         listOfHouseholds.appendChild(fragment);
       }
