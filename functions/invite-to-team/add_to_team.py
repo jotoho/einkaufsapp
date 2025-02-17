@@ -35,7 +35,7 @@ def main(context):
                                                            "userId", [context.req.headers["x-appwrite-user-id"]])
                                                    ])["total"] == 1
     if authenticated_inviter:
-        teams.create_membership(team_id, roles=["owner"], user_id=user_candidates[0])
+        teams.create_membership(team_id, roles=["owner"], user_id=user_candidates[0]["$id"])
         return context.res.empty()
 
     context.res.status_code(400)
