@@ -29,9 +29,9 @@ def main(context):
     requested_team = teams.get(team_id)
     authenticated_inviter = teams.list_memberships(team_id=team_id,
                                                    queries=[
-                                                       Query.equals(
+                                                       Query.equal(
                                                            "confirm", [true]),
-                                                       Query.equals(
+                                                       Query.equal(
                                                            "userId", [context.req.headers["x-appwrite-user-id"]])
                                                    ])["total"] == 1
     if authenticated_inviter:
