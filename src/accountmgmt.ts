@@ -148,8 +148,7 @@ const inviteToHousehold = async (
           if (execution.status === "completed") {
             window.location.hash = "#newHouseholdForm";
             window.location.reload();
-          }
-          else {
+          } else {
             showToast("Einladung fehlgeschlagen");
             console.error("Invite failed:", execution);
           }
@@ -201,7 +200,7 @@ const generateMemberElement = (member: Models.Membership) => {
   const element = document.createElement("li");
   element.classList.add("teammember");
   element.innerHTML = `
-    <span>${member.userEmail}</span>
+    <span>${member.userName.length > 0 ? "\"" + member.userName + "\" (" + member.userEmail + ")" : member.userEmail}</span>
     <button class="kickMember">Entfernen</button>
   `.trim();
   element
@@ -245,14 +244,14 @@ if (listOfHouseholds) {
           "button.leaveHousehold",
         )!;
         leaveButton.addEventListener("click", leaveHousehold.bind(null, team));
-        const listOfMembers = fragment.querySelector<HTMLUListElement>(
-          "#householdInformation > ul.members",
-        )!;
-        for (const member of (
-          await teamsAPI.listMemberships(team.$id).catch(() => null)
-        )?.memberships ?? []) {
-          if (member.confirm) {
-            if ((member.userId = currentUser.$id)) {
+        const listOfMembers =
+          fragment.querySelector<HTMLUListElement>("ul.members")!;
+        for (const member of await teamsAPI.listMemberships(team.$id).then(
+          (listObj) => listObj.memberships,
+          () => [],
+        )) {
+          if (member.confirm || member.joined.length > 0) {
+            if (member.userId == currentUser.$id) {
               continue;
             }
             listOfMembers.appendChild(generateMemberElement(member));
