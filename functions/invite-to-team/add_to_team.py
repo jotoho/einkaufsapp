@@ -7,6 +7,7 @@ from appwrite.client import Client
 from appwrite.query import Query
 from appwrite.services.teams import Teams
 from appwrite.services.users import Users
+from os import environ
 
 
 def main(context):
