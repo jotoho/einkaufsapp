@@ -45,10 +45,8 @@ const generateListRepresentation = async (liste: Einkaufsliste) => {
       dateStyle: "long",
     },
   );
-  result.attributeStyleMap.set(
-    "order",
-    (new Date(liste.stichtag).getTime() / 3_600_000).toFixed(0),
-  );
+  result.style.cssText =
+    "order: " + Math.floor(new Date(liste.stichtag).getTime() / 3_600_000);
   result.innerHTML = `
     <a href="/liste.html?id=${liste.$id}" >
       <h3 class="listname">${liste.beschriftung}</h3>
@@ -64,7 +62,8 @@ const teams = new Teams(client);
 const documentProcessor = async (doc: Einkaufsliste) => {
   console.debug(doc);
   const listOfLists = doc.listeneintrag as Listeneintrag[];
-  const isDone = listOfLists.every((liste) => liste.erledigt) && listOfLists.length > 0;
+  const isDone =
+    listOfLists.every((liste) => liste.erledigt) && listOfLists.length > 0;
   (isDone ? doneLists : openLists).appendChild(
     await generateListRepresentation(doc),
   );
