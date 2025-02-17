@@ -144,9 +144,15 @@ const inviteToHousehold = async (
         }),
       )
       .then(
-        () => {
-          window.location.hash = "#newHouseholdForm";
-          window.location.reload();
+        (execution: Models.Execution) => {
+          if (execution.status === "completed") {
+            window.location.hash = "#newHouseholdForm";
+            window.location.reload();
+          }
+          else {
+            showToast("Einladung fehlgeschlagen");
+            console.error("Invite failed:", execution);
+          }
         },
         (reason) => {
           showToast("Einladung fehlgeschlagen.");
@@ -216,7 +222,6 @@ if (listOfHouseholds) {
     async (userTeams) => {
       const teamList = userTeams.teams;
       for (const team of teamList) {
-        console.debug(team);
         const fragment = document.createElement("li");
         fragment.innerHTML = `
         <div class="householdInformation">
@@ -246,7 +251,6 @@ if (listOfHouseholds) {
         for (const member of (
           await teamsAPI.listMemberships(team.$id).catch(() => null)
         )?.memberships ?? []) {
-          console.debug(member);
           if (member.confirm) {
             if ((member.userId = currentUser.$id)) {
               continue;
