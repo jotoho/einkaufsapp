@@ -11,6 +11,7 @@ import {
   Role,
 } from "appwrite";
 import { CONFIG } from "./config.ts";
+import { showToast } from "./notifications.ts";
 import type { Einkaufsliste, Listeneintrag } from "./types.ts";
 
 const client = new Client()
@@ -36,6 +37,21 @@ if (openLists === null || doneLists === null) {
   throw "Malformed HTML";
 }
 
+const deleteListFn = async (listen_id: string, domElement: HTMLElement) => {
+  db.deleteDocument(
+    CONFIG.DATABASE_ID,
+    CONFIG.DB_COLLECTION_SHOPPINGLISTS,
+    listen_id,
+  ).then(
+    () => {
+      domElement.remove();
+    },
+    () => {
+      showToast("Löschen schiefgelaufen!");
+    },
+  );
+};
+
 const generateListRepresentation = async (liste: Einkaufsliste) => {
   const result = document.createElement("li");
   const einträge = liste.listeneintrag as Listeneintrag[];
@@ -52,9 +68,15 @@ const generateListRepresentation = async (liste: Einkaufsliste) => {
       <h3 class="listname">${liste.beschriftung}</h3>
       <span class="household">${(await teams.get(liste.ID_Household)).name}</span>
       <time datetime="${liste.stichtag}">${stichtag_localized}</time>
-      <progress max="${einträge.length}" value="${einträge.filter((listeneintrag) => listeneintrag.erledigt).length}" />
+      <progress max="${einträge.length}"
+                value="${einträge.filter((listeneintrag) => listeneintrag.erledigt).length}">
+      </progress>
     </a>
+    <button class="listDeletor">🗑</button>
   `;
+  result
+    .querySelector("button.listDeletor")
+    ?.addEventListener?.("click", deleteListFn.bind(null, liste!.$id!, result));
   return result;
 };
 
