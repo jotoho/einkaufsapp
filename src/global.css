@@ -28,11 +28,13 @@
 
 :root > body {
   display: contents;
+  overflow: hidden;
 
   > main {
     flex-grow: 1;
     flex-shrink: 0;
-    padding: 1em;
+    padding: max(min(1em, 1vh, 1vw), 1px);
+    overflow: hidden;
   }
 }
 
