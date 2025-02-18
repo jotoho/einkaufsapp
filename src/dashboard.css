@@ -10,7 +10,8 @@ form#new-list-form {
   width: fit-content;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1em;
+  gap: max(min(1em, 1vh, 1vw), 1px);
+  padding: 0;
 
   > input[type="text"] {
     flex-grow: 1;
@@ -25,6 +26,7 @@ form#new-list-form {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  padding: 0;
 
   &.done {
     flex-direction: column-reverse;
@@ -33,13 +35,14 @@ form#new-list-form {
   > li {
     list-style-type: none;
     border: 1px solid black;
-    padding: 1em;
+    padding: max(min(1em, 1vw, 1vh), 1px);
     gap: 1em;
     display: flex;
     flex-direction: row;
     flex-basis: content;
     flex-wrap: wrap;
     width: 100%;
+    align-items: center;
 
     > a {
       display: contents;
