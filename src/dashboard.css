@@ -64,6 +64,12 @@ form#new-list-form {
         flex-grow: 1;
       }
     }
+
+    button.listDeletor {
+      flex-basis: content;
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
   }
 }
 
