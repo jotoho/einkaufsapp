@@ -7,7 +7,7 @@ export type Listeneintrag = {
   artikelname: string;
   anzahl: number;
   erledigt: boolean;
-  einkaufslisten: Einkaufsliste | null;
+  einkaufslisten: string;
 } & Readonly<Partial<Models.Document>>;
 
 export type Einkaufsliste = {
